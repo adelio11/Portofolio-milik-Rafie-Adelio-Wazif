@@ -1,88 +1,79 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portofolio Saya</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-      color: #333;
-    }
-    header {
-      background-color: #2d2dff;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    .container {
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-    .section {
-      margin-bottom: 40px;
-    }
-    h2 {
-      color: #2d2dff;
-    }
-    .project {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    }
-    footer {
-      text-align: center;
-      padding: 15px;
-      background: #2d2dff;
-      color: white;
-    }
-    a {
-      color: #2d2dff;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Halo, Saya [Nama Kamu]</h1>
-    <p>Calon Programmer & Desainer Muda</p>
-  </header>
-  <div class="container">
-    <section class="section">
-      <h2>Tentang Saya</h2>
-      <p>Saya adalah pelajar MAN 3 JOMBANG yang tertarik pada dunia teknologi, khususnya pemrograman, desain, dan pengembangan web. Saat ini saya sedang mengembangkan skill saya untuk mempersiapkan diri masuk jurusan IT.</p>
-    </section>
+import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Calendar } from "@/components/ui/calendar";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import { ModeToggle } from "@/components/mode-toggle";
 
-    <section class="section">
-      <h2>Proyek Saya</h2>
-      <div class="project">
-        <h3>Website Kalkulator</h3>
-        <p>Sebuah website sederhana menggunakan HTML, CSS, dan JavaScript untuk melakukan perhitungan matematika dasar.</p>
+export default function Home() {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [date, setDate] = useState(new Date());
+  const [bio, setBio] = useState("Halo, saya Rafie Wazif. Selamat datang di web saya!");
+  const [instagramLink, setInstagramLink] = useState("https://instagram.com/");
+
+  return (
+    <main className="min-h-screen bg-background text-foreground p-4">
+      <div className="flex justify-between items-start">
+        <div>
+          <ModeToggle />
+        </div>
+        <div className="text-right">
+          <Button variant="ghost">Profil</Button>
+        </div>
       </div>
-      <div class="project">
-        <h3>Desain Poster Edukasi</h3>
-        <p>Poster informatif yang saya buat menggunakan Photoshop dan Canva untuk lomba kampanye digital.</p>
+
+      <div className="flex flex-col items-center mt-6">
+        <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-primary">
+          <img
+            src="https://via.placeholder.com/150"
+            alt="Foto Profil"
+            className="object-cover w-full h-full"
+          />
+        </div>
+        <div className="mt-4 text-center">
+          <h1 className="text-2xl font-bold">Rafie Wazif</h1>
+          <Textarea
+            className="mt-2 w-64"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+          />
+          <div className="mt-2">
+            <Input
+              type="text"
+              placeholder="Link Instagram"
+              value={instagramLink}
+              onChange={(e) => setInstagramLink(e.target.value)}
+            />
+          </div>
+        </div>
       </div>
-    </section>
 
-    <section class="section">
-      <h2>Kontak</h2>
-      <p>Email: kamu@email.com</p>
-      <p>Instagram: <a href="https://instagram.com/kamu" target="_blank">@kamu</a></p>
-    </section>
-  </div>
+      <div className="mt-10 max-w-md mx-auto">
+        <Card>
+          <CardContent className="p-4">
+            <h2 className="text-xl font-semibold mb-4">PROJEK SAYA</h2>
+            <Label htmlFor="file-upload">Unggah File</Label>
+            <Input
+              id="file-upload"
+              type="file"
+              onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+            />
+            {selectedFile && <p className="mt-2">File: {selectedFile.name}</p>}
+          </CardContent>
+        </Card>
+      </div>
 
-  <footer>
-    <p>&copy; 2025 [Nama Kamu] - Portofolio Pribadi</p>
-  </footer>
-</body>
-</html>
+      <div className="mt-10 max-w-md mx-auto">
+        <Card>
+          <CardContent className="p-4">
+            <h2 className="text-xl font-semibold mb-4">Jadwal Kegiatan</h2>
+            <Calendar mode="single" selected={date} onSelect={setDate} className="rounded-md border" />
+          </CardContent>
+        </Card>
+      </div>
+    </main>
+  );
+}
